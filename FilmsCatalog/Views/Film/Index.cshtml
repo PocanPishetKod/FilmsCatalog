@@ -1,8 +1,11 @@
 ﻿@model FilmsCatalog.Models.FilmsListViewModel
-@using System.Net
+@using Microsoft.AspNetCore.Identity
+@using FilmsCatalog.Data.Entities
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Index";
     var pagesCount = Math.Ceiling((decimal)Model.TotalCount / (decimal)Model.PageSize);
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <p>
@@ -35,11 +38,18 @@
                     @Html.DisplayFor(modelItem => item.ReleaseYear)
                 </td>
                 <td>
-                    @Html.ActionLink("Редактировать", "Update", new { item.Id }) |
-                    @Html.ActionLink("Открыть", "Details", new { item.Id }) |
-                    @using (Html.BeginForm("Delete", "Film", new { item.Id }, FormMethod.Post, true, new { id = "deleteForm" }))
+                    @if (user.Id == item.UserId)
                     {
-                        <a href="javascript:document.getElementById('deleteForm').submit();">Удалить</a>
+                        @Html.ActionLink("Редактировать", "Update", new { item.Id }) <span>|</span>
+}
+                    @Html.ActionLink("Открыть", "Details", new { item.Id })
+                    @if (user.Id == item.UserId)
+                    {
+                        <span>|</span>
+                        using (Html.BeginForm("Delete", "Film", new { item.Id }, FormMethod.Post, true, new { id = "deleteForm" }))
+                        {
+                            <a href="javascript:document.getElementById('deleteForm').submit();">Удалить</a>
+                        }
                     }
                 </td>
             </tr>
@@ -60,24 +70,24 @@
             </li>
             @for (int i = 0; i < Math.Min(3, pagesCount); i++)
             {
-            <li class="page-item @(Model.PageNum == i + 1 ? "active" : string.Empty)">
-                @if (Model.PageNum == i + 1)
-                {
-                    <a href="javascript:void(0);" class="page-link">@($"{i + 1}")</a>
-                }
-                else
-                {
-                    @Html.ActionLink($"{i + 1}", "Index", new { pageNum = i + 1, pageSize = Model.PageSize }, new { @class = "page-link" })
-                }
-            </li>
-            }
-                <li class="page-item @(pagesCount == Model.PageNum ? "disabled" : string.Empty)">
-                    <a class="page-link"
-                       href="@Url.Action("Index", new { pageNum = Model.PageNum + 1, pageSize = Model.PageSize })" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                <li class="page-item @(Model.PageNum == i + 1 ? "active" : string.Empty)">
+                    @if (Model.PageNum == i + 1)
+                    {
+                        <a href="javascript:void(0);" class="page-link">@($"{i + 1}")</a>
+                    }
+                    else
+                    {
+                        @Html.ActionLink($"{i + 1}", "Index", new { pageNum = i + 1, pageSize = Model.PageSize }, new { @class = "page-link" })
+                    }
                 </li>
+            }
+            <li class="page-item @(pagesCount == Model.PageNum ? "disabled" : string.Empty)">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { pageNum = Model.PageNum + 1, pageSize = Model.PageSize })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
         </ul>
     </nav>
 }

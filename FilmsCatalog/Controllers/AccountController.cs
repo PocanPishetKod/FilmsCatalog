@@ -101,5 +101,13 @@ namespace FilmsCatalog.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View("Error", new ErrorViewModel()
+            {
+                RequestId = "Ресурс недоступен"
+            });
+        }
     }
 }

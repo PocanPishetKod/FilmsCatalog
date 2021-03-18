@@ -1,7 +1,10 @@
 ﻿@model FilmsCatalog.Models.FilmViewModel
-
+@using Microsoft.AspNetCore.Identity
+@using FilmsCatalog.Data.Entities
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Details";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <div>
@@ -38,6 +41,9 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Редактировать", "Update", new { id = Model.Id }) |
+    @if (user.Id == Model.UserId)
+    {
+        @Html.ActionLink("Редактировать", "Update", new { id = Model.Id }) <span>|</span>
+    }
     <a asp-action="Index" asp-route-pageNum="1" asp-route-pageSize="@FilmController.PageSize">Назад к списку</a>
 </div>
