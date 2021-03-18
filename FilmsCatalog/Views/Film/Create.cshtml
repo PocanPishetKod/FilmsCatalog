@@ -1,0 +1,47 @@
+﻿@model FilmsCatalog.Models.UpdateFilmViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="name">Название</label>
+                <input id="name" asp-for="Film.Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="desc">Описание</label>
+                <input id="desc" asp-for="Film.Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="rd">Дата релиза</label>
+                <input id="rd" asp-for="Film.ReleaseYear" class="form-control" type="date" />
+            </div>
+            <div class="form-group">
+                <label for="director">Режиссер</label>
+                <input id="director" asp-for="Film.Director" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="poster">Постер</label>
+                <input id="poster" asp-for="PosterFile" class="form-control" type="file" accept="jpg,png,jpeg" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-pageNum="1" asp-route-pageSize="@FilmController.PageSize">Назад к списку</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
