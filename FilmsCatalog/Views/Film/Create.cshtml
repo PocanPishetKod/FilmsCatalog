@@ -12,23 +12,23 @@
 
             <div class="form-group">
                 <label for="name">Название</label>
-                <input id="name" asp-for="Film.Name" class="form-control" />
+                <input id="name" asp-for="Film.Name" class="form-control" required />
             </div>
             <div class="form-group">
                 <label for="desc">Описание</label>
-                <input id="desc" asp-for="Film.Description" class="form-control" />
+                <textarea id="desc" asp-for="Film.Description" class="form-control" required></textarea>
             </div>
             <div class="form-group">
                 <label for="rd">Дата релиза</label>
-                <input id="rd" asp-for="Film.ReleaseYear" class="form-control" type="date" />
+                <input id="rd" asp-for="Film.ReleaseYear" class="form-control" type="date" required />
             </div>
             <div class="form-group">
                 <label for="director">Режиссер</label>
-                <input id="director" asp-for="Film.Director" class="form-control" />
+                <input id="director" asp-for="Film.Director" class="form-control" required />
             </div>
             <div class="form-group">
                 <label for="poster">Постер</label>
-                <input id="poster" asp-for="PosterFile" class="form-control" type="file" accept="jpg,png,jpeg" />
+                <input required id="poster" asp-for="PosterFile" class="form-control" type="file" accept="jpg,png,jpeg" />
             </div>
 
             <div class="form-group">
